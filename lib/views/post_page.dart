@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gsm_inside_flutter/apis/fetch_api.dart';
 import 'package:gsm_inside_flutter/models/api_model.dart';
 
@@ -48,6 +47,7 @@ class _PostPageState extends State<PostPage> {
             ElevatedButton(
               onPressed: postFetchApi,
               child: Container(
+                decoration: const BoxDecoration(),
                 child: const Text('post'),
               ),
             ),
@@ -58,6 +58,7 @@ class _PostPageState extends State<PostPage> {
             ElevatedButton(
               onPressed: putFetchApi,
               child: Container(
+                decoration: const BoxDecoration(),
                 child: const Text('put'),
               ),
             ),

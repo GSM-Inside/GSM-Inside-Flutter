@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: fetchedData == false
+      body: fetchedData.isEmpty == true
           ? const SizedBox()
           : ListView.builder(
               itemCount: fetchedData.length,

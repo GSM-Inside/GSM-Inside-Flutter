@@ -9,11 +9,9 @@ class FetchApi {
       List<dynamic> fetchedDatas = response.data;
       List<ApiModel> data =
           fetchedDatas.map((e) => ApiModel.fromJson(e)).toList();
-      print(response.statusCode);
       return data;
     } catch (e) {
-      print('문제 : $e');
-      return [];
+      throw e.toString();
     }
   }
 
@@ -25,9 +23,9 @@ class FetchApi {
         "http://127.0.0.1:5000/posts",
         data: data,
       );
-      print(response.statusCode);
+      return response;
     } catch (e) {
-      print(e);
+      throw e.toString();
     }
   }
 
@@ -38,9 +36,9 @@ class FetchApi {
         "http://127.0.0.1:5000/posts/$id",
         data: data,
       );
-      print(response.statusCode);
+      return response;
     } catch (e) {
-      print(e);
+      throw e.toString();
     }
   }
 
@@ -48,9 +46,9 @@ class FetchApi {
     final dio = Dio();
     try {
       var response = await dio.delete('http://127.0.0.1:5000/posts/$id');
-      print(response.statusCode);
+      return response;
     } catch (e) {
-      print(e);
+      throw e.toString();
     }
   }
 }
