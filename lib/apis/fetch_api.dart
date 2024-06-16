@@ -3,7 +3,7 @@ import 'package:gsm_inside_flutter/models/api_model.dart';
 
 class FetchApi {
   static final dio = Dio();
-  static var _token;
+  static var _token = '';
   static Future<bool> loginFetchApi(Map<String, dynamic> data) async {
     try {
       var response = await dio.post(

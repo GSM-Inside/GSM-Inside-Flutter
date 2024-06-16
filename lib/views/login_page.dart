@@ -15,12 +15,16 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  Future loginFetchApi(BuildContext context) async {
+  Future loginFetchApi() async {
     var data = LoginModel(
             username: _usernameController.text,
             password: _passwordController.text)
         .toJson();
-    if (await FetchApi.loginFetchApi(data)) {
+    bool loginSuccess = await FetchApi.loginFetchApi(data);
+
+    if (!mounted) return;
+
+    if (loginSuccess) {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -31,7 +35,6 @@ class _LoginPageState extends State<LoginPage> {
       _showAlert(
         title: '로그인 실패',
         message: '다시 시도해주세요',
-        context: context,
       );
     }
   }
@@ -39,7 +42,6 @@ class _LoginPageState extends State<LoginPage> {
   void _showAlert({
     required String title,
     required String message,
-    required BuildContext context,
   }) {
     showCupertinoDialog(
       context: context,
@@ -76,8 +78,7 @@ class _LoginPageState extends State<LoginPage> {
             controller: _passwordController,
           ),
           ElevatedButton(
-              onPressed: () => loginFetchApi(context),
-              child: const Text('login'))
+              onPressed: () => loginFetchApi(), child: const Text('login'))
         ],
       ),
     );
