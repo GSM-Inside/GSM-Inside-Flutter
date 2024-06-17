@@ -11,7 +11,7 @@ class DeletePage extends StatefulWidget {
 class _DeletePageState extends State<DeletePage> {
   final TextEditingController _idController = TextEditingController();
   deleteFetchApi() async {
-    await FetchApi.deleteFetchApi(_idController.text);
+    await FetchApi().deleteFetchApi(_idController.text);
   }
 
   @override

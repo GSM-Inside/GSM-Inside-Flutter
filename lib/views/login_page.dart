@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
             username: _usernameController.text,
             password: _passwordController.text)
         .toJson();
-    bool loginSuccess = await FetchApi.loginFetchApi(data);
+    bool loginSuccess = await FetchApi().loginFetchApi(data);
 
     if (!mounted) return;
 

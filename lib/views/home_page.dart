@@ -13,7 +13,7 @@ class _HomePageState extends State<HomePage> {
   List<ApiModel> fetchedData = [];
 
   getFatchApi() async {
-    List<ApiModel> data = await FetchApi.getFetchApi();
+    List<ApiModel> data = await FetchApi().getFetchApi();
     setState(
       () {
         fetchedData = data;

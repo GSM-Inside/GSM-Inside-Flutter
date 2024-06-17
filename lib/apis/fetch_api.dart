@@ -2,9 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:gsm_inside_flutter/models/api_model.dart';
 
 class FetchApi {
-  static final dio = Dio();
-  static var _token = '';
-  static Future<bool> loginFetchApi(Map<String, dynamic> data) async {
+  final dio = Dio();
+  var _token = '';
+
+  Future<bool> loginFetchApi(Map<String, dynamic> data) async {
     try {
       var response = await dio.post(
         "http://127.0.0.1:5000/login",
@@ -21,7 +22,7 @@ class FetchApi {
     }
   }
 
-  static Future<List<ApiModel>> getFetchApi() async {
+  Future<List<ApiModel>> getFetchApi() async {
     try {
       var response = await dio.get(
         "http://127.0.0.1:5000/posts",
@@ -38,7 +39,7 @@ class FetchApi {
     }
   }
 
-  static postFetchApi(Map<String, dynamic> data) async {
+  Future<dynamic> postFetchApi(Map<String, dynamic> data) async {
     try {
       var response = await dio.post(
         "http://127.0.0.1:5000/posts",
@@ -53,7 +54,7 @@ class FetchApi {
     }
   }
 
-  static putFetchApi(Map<String, dynamic> data, String id) async {
+  Future<dynamic> putFetchApi(Map<String, dynamic> data, String id) async {
     try {
       var response = await dio.put(
         "http://127.0.0.1:5000/posts/$id",
@@ -68,7 +69,7 @@ class FetchApi {
     }
   }
 
-  static deleteFetchApi(String id) async {
+  Future<dynamic> deleteFetchApi(String id) async {
     try {
       var response = await dio.delete(
         'http://127.0.0.1:5000/posts/$id',

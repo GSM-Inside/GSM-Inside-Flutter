@@ -15,14 +15,14 @@ class _PostPageState extends State<PostPage> {
   final TextEditingController _idController = TextEditingController();
 
   postFetchApi() async {
-    await FetchApi.postFetchApi(
+    await FetchApi().postFetchApi(
       ApiModel(title: _titleController.text, content: _contentController.text)
           .toJson(),
     );
   }
 
   putFetchApi() async {
-    await FetchApi.putFetchApi(
+    await FetchApi().putFetchApi(
         ApiModel(title: _titleController.text, content: _contentController.text)
             .toJson(),
         _idController.text);
