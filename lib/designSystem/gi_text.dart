@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gsm_inside_flutter/designSystem/gi_fontsize.dart';
 
 class GITextBlack extends StatelessWidget {
   final String text;
