@@ -1,4 +1,4 @@
-class FontSize {
+class GIFontSize {
   static String pretendard_100 = "Pretendard-100";
   static String pretendard_200 = "Pretendard-200";
   static String pretendard_300 = "Pretendard-300";
