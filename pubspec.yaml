@@ -74,6 +74,9 @@ flutter:
     - assets/images/like_logo.svg
     - assets/images/comment_logo.svg
     - assets/images/hot.svg
+    - assets/images/arrow.svg
+    - assets/images/circle.svg
+    - assets/images/delete.svg
 
 
   fonts:

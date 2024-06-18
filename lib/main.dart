@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gsm_inside_flutter/views/home/home_page.dart';
+import 'package:gsm_inside_flutter/views/search/search_page.dart';
 
 void main() {
   runApp(
@@ -12,9 +12,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Homepage(),
+      home: SearchPage(),
     );
   }
 }
