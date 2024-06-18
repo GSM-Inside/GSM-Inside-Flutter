@@ -57,7 +57,7 @@ class SearchPage extends StatelessWidget {
               const SizedBox(
                 height: 68,
               ),
-              const Search(searchWord: '검색어')
+              const SearchComponents(searchWord: '검색어')
             ],
           ),
         ),

@@ -4,9 +4,9 @@ import 'package:gsm_inside_flutter/designSystem/gi_color.dart';
 import 'package:gsm_inside_flutter/designSystem/gi_fontsize.dart';
 import 'package:gsm_inside_flutter/designSystem/gi_text.dart';
 
-class Search extends StatelessWidget {
+class SearchComponents extends StatelessWidget {
   final String searchWord;
-  const Search({
+  const SearchComponents({
     super.key,
     required this.searchWord,
   });
