@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gsm_inside_flutter/designSystem/gi_color.dart';
 import 'package:gsm_inside_flutter/designSystem/gi_fontsize.dart';
 import 'package:gsm_inside_flutter/designSystem/gi_text.dart';
+import 'package:gsm_inside_flutter/provider/search_history_notifier.dart';
 
-class SearchComponents extends StatelessWidget {
+class SearchComponents extends ConsumerWidget {
   final String searchWord;
+  final int index;
   const SearchComponents({
     super.key,
     required this.searchWord,
+    required this.index,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -36,6 +40,9 @@ class SearchComponents extends StatelessWidget {
           ),
         ),
         GestureDetector(
+          onTap: () {
+            ref.read(searchHistoryProvider.notifier).removeSearchTerm(index);
+          },
           child: SvgPicture.asset('assets/images/delete.svg'),
         )
       ],

@@ -6,8 +6,6 @@ import 'package:gsm_inside_flutter/designSystem/gi_fontsize.dart';
 import 'package:gsm_inside_flutter/designSystem/gi_text.dart';
 
 class BoardPreview extends StatelessWidget {
-  const BoardPreview({super.key});
-
   final String _galleryTitle = '아무말 갤러리';
   final String _date = '1시간 전';
   final String _title = '제목';
@@ -15,11 +13,13 @@ class BoardPreview extends StatelessWidget {
       '이렇쿵저렁쿵이렇쿵저렁쿵 이러이러 해서 이렁쿵 저렁쿵 이러해서 이러해서 그렇게 되었다고 하는데 나느 잘 모르겠어 ㅎㅎ';
   final int _like = 100;
   final int _comment = 200;
+  const BoardPreview({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      margin: const EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
         border: Border.all(
           width: 1,

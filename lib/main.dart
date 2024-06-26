@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:gsm_inside_flutter/views/search/search_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gsm_inside_flutter/router.dart';
 
-void main() {
+void main() async {
   runApp(
-    const MyApp(),
+    const ProviderScope(
+      child: MyApp(),
+    ),
   );
 }
 
@@ -12,9 +15,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      home: SearchPage(),
+      title: 'GSM-Inside',
+      routerConfig: PageRouter.router,
     );
   }
 }

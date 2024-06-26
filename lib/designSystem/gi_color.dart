@@ -25,5 +25,5 @@ class GIColorMain {
 }
 
 class GIColorSystem {
-  static Color error = const Color(0xffD5F0FB);
+  static Color error = const Color(0xffE90505);
 }

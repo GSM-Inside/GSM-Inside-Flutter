@@ -1,55 +1,64 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:gsm_inside_flutter/components/search.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gsm_inside_flutter/components/search_components.dart';
 import 'package:gsm_inside_flutter/designSystem/gi_color.dart';
 import 'package:gsm_inside_flutter/designSystem/gi_fontsize.dart';
+import 'package:gsm_inside_flutter/provider/search_history_notifier.dart';
 
-class SearchPage extends StatelessWidget {
+class SearchPage extends ConsumerWidget {
   SearchPage({super.key});
 
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController controller = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    var mediaQuery = MediaQuery.of(context).size;
-    double widthMediaQuery = mediaQuery.width / 1.4;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final searchHistory = ref.watch(searchHistoryProvider);
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 31),
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           child: Column(
             children: [
               Row(
                 children: [
-                  SvgPicture.asset(
-                    'assets/images/arrow.svg',
-                    width: 36,
-                    height: 36,
-                  ),
+                  const BackButton(),
                   const SizedBox(
                     width: 13,
                   ),
-                  Container(
-                    alignment: Alignment.center,
-                    height: 40,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    width: widthMediaQuery,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                      color: GIColorBlack.grey200,
-                    ),
-                    child: CupertinoTextField(
-                      placeholderStyle: TextStyle(
-                          fontSize: 14,
-                          color: const Color(0xffadadad),
-                          fontFamily: GIFontSize.pretendard_300),
-                      placeholder: "게시판을 찾아보세요",
-                      decoration: const BoxDecoration(),
-                      cursorColor: Colors.black,
-                      controller: _controller,
+                  Expanded(
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                          height: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                            color: GIColorBlack.grey200,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: TextField(
+                            onSubmitted: (term) {
+                              ref
+                                  .read(searchHistoryProvider.notifier)
+                                  .addSearchTerm(term);
+                              controller.clear();
+                            },
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: '게시판을 찾아보세요',
+                              hintStyle: TextStyle(
+                                  fontSize: 14,
+                                  color: const Color(0xffadadad),
+                                  fontFamily: GIFontSize.pretendard_300),
+                            ),
+                            cursorColor: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
                   )
                 ],
@@ -57,7 +66,18 @@ class SearchPage extends StatelessWidget {
               const SizedBox(
                 height: 68,
               ),
-              const SearchComponents(searchWord: '검색어')
+              Expanded(
+                child: ListView.builder(
+                  itemCount: searchHistory.history.length,
+                  itemBuilder: (context, index) {
+                    final String searchWord = searchHistory.history[index];
+                    return SearchComponents(
+                      searchWord: searchWord,
+                      index: index,
+                    );
+                  },
+                ),
+              )
             ],
           ),
         ),

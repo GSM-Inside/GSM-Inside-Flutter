@@ -17,7 +17,7 @@ class GalleryPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 9),
         decoration: const BoxDecoration(),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
