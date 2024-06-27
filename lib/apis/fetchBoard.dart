@@ -3,7 +3,6 @@ import 'package:gsm_inside_flutter/models/board_api_model.dart';
 
 class FetchBoardApi {
   final _dio = Dio();
-  final String _url = 'http://3.39.154.249';
 
   Future<List<BoardApi>> getApiFetch() async {
     try {
