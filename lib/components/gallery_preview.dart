@@ -6,7 +6,7 @@ import 'package:gsm_inside_flutter/designSystem/gi_text.dart';
 
 class GalleryPreview extends StatelessWidget {
   final String title;
-  final bool hot;
+  final int hot;
   const GalleryPreview({
     super.key,
     required this.title,
@@ -46,28 +46,43 @@ class GalleryPreview extends StatelessWidget {
                 ],
               ),
             ),
-            hot
-                ? Container(
-                    decoration: const BoxDecoration(),
-                    child: Row(
-                      children: [
-                        GIText(
-                          text: '인기 급상승',
-                          fontSize: GIFontSize.pretendard_300,
-                          size: 12,
-                          color: GIColorMain.main600_05A4E9,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        SvgPicture.asset('assets/images/hot.svg'),
-                      ],
-                    ),
-                  )
-                : Container(),
+            ranking(hot),
           ],
         ),
       ),
     );
   }
+}
+
+ranking(int hot) {
+  Color color = GIColorMain.main100_D5F0FB;
+  switch (hot) {
+    case 1:
+      color = GIColorMain.main600_05A4E9;
+    case 2:
+      color = GIColorMain.main500_2FB3ED;
+    case 3:
+      color = GIColorMain.main400_58C2F0;
+    case 4:
+      color = GIColorMain.main300_82D2F4;
+    case 5:
+      color = GIColorMain.main200_ACE1F8;
+  }
+  return Container(
+    decoration: const BoxDecoration(),
+    child: Row(
+      children: [
+        GIText(
+          text: '$hot등',
+          fontSize: GIFontSize.pretendard_300,
+          size: 12,
+          color: color,
+        ),
+        const SizedBox(
+          width: 5,
+        ),
+        SvgPicture.asset('assets/images/hot.svg'),
+      ],
+    ),
+  );
 }

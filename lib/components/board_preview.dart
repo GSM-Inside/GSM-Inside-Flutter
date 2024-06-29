@@ -6,14 +6,21 @@ import 'package:gsm_inside_flutter/designSystem/gi_fontsize.dart';
 import 'package:gsm_inside_flutter/designSystem/gi_text.dart';
 
 class BoardPreview extends StatelessWidget {
-  final String _galleryTitle = '아무말 갤러리';
-  final String _date = '1시간 전';
-  final String _title = '제목';
-  final String _content =
-      '이렇쿵저렁쿵이렇쿵저렁쿵 이러이러 해서 이렁쿵 저렁쿵 이러해서 이러해서 그렇게 되었다고 하는데 나느 잘 모르겠어 ㅎㅎ';
-  final int _like = 100;
-  final int _comment = 200;
-  const BoardPreview({super.key});
+  final String galleryTitle;
+  final String date;
+  final String title;
+  final String content;
+  final int like;
+  final int comment;
+  const BoardPreview({
+    super.key,
+    required this.galleryTitle,
+    required this.date,
+    required this.title,
+    required this.content,
+    required this.like,
+    required this.comment,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +56,7 @@ class BoardPreview extends StatelessWidget {
                     ),
                     const SizedBox(width: 10),
                     GIText(
-                      text: _galleryTitle,
+                      text: galleryTitle,
                       fontSize: GIFontSize.pretendard_300,
                       size: 12,
                       color: GIColorBlack.black,
@@ -58,7 +65,7 @@ class BoardPreview extends StatelessWidget {
                 ),
               ),
               GIText(
-                text: _date,
+                text: date,
                 fontSize: GIFontSize.pretendard_300,
                 size: 14,
                 color: GIColorBlack.grey600,
@@ -69,7 +76,7 @@ class BoardPreview extends StatelessWidget {
             height: 10,
           ),
           GIText(
-            text: _title,
+            text: title,
             fontSize: GIFontSize.pretendard_600,
             size: 16,
             color: GIColorBlack.black,
@@ -81,7 +88,7 @@ class BoardPreview extends StatelessWidget {
             decoration: const BoxDecoration(),
             width: 170,
             child: GIText(
-              text: _content,
+              text: content,
               fontSize: GIFontSize.pretendard_300,
               size: 12,
               color: GIColorBlack.grey600,
@@ -95,7 +102,7 @@ class BoardPreview extends StatelessWidget {
                 width: 6,
               ),
               GIText(
-                text: '$_like',
+                text: '$like',
                 fontSize: GIFontSize.pretendard_300,
                 size: 10,
                 color: GIColorMain.main600_05A4E9,
@@ -108,7 +115,7 @@ class BoardPreview extends StatelessWidget {
                 width: 6,
               ),
               GIText(
-                text: '$_comment',
+                text: '$comment',
                 fontSize: GIFontSize.pretendard_300,
                 size: 10,
                 color: GIColorMain.main600_05A4E9,

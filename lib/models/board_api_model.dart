@@ -1,4 +1,4 @@
-class BoardApi {
+class BoardGetApi {
   final int id;
   final String title;
   final int gallery;
@@ -10,7 +10,7 @@ class BoardApi {
   final int? dislike;
   final String password = '0000';
 
-  BoardApi({
+  BoardGetApi({
     required this.id,
     required this.title,
     required this.gallery,
@@ -22,7 +22,7 @@ class BoardApi {
     this.dislike,
   });
 
-  BoardApi.fromJson(Map<String, dynamic> json)
+  BoardGetApi.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         title = json['title'],
         gallery = json['gallery'],

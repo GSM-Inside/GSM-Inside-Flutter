@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gsm_inside_flutter/components/board_preview.dart';
 import 'package:gsm_inside_flutter/designSystem/gi_color.dart';
 import 'package:gsm_inside_flutter/designSystem/gi_fontsize.dart';
 import 'package:gsm_inside_flutter/designSystem/gi_text.dart';
@@ -118,15 +117,6 @@ class _GalleryPageState extends State<GalleryPage> {
                     )
                   ],
                 ),
-                const BoardPreview(),
-                const BoardPreview(),
-                const BoardPreview(),
-                const BoardPreview(),
-                const BoardPreview(),
-                const BoardPreview(),
-                const BoardPreview(),
-                const BoardPreview(),
-                const BoardPreview(),
               ],
             ),
           ),
