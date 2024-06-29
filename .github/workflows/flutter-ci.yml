@@ -11,15 +11,15 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-18.04, windows-2019, macos-10.15]
+        os: [ubuntu-20.04, windows-2019, macos-11]
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
 
-      - name: Clone Flutter repository with stable channel
-        uses: subosito/flutter-action@v1.5.0
+      - name: Clone Flutter repository with the latest stable channel
+        uses: subosito/flutter-action@v2
         with:
-          channel: stable
+          channel: stable  # 안정적인 최신 채널을 사용합니다.
 
       - run: flutter doctor -v
 
