@@ -70,7 +70,7 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-    - assets/config/debug.env
+    - config/.env
     - assets/images/logo_main.svg
     - assets/images/logo_small.svg
     - assets/images/mdi-light_lignt.svg

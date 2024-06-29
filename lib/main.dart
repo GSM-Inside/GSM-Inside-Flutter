@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gsm_inside_flutter/router.dart';
 
 void main() async {
-  await dotenv.load(fileName: 'assets/config/debug.env');
+  await dotenv.load(fileName: 'config/.env');
   runApp(
     const ProviderScope(
       child: MyApp(),
