@@ -1,3 +1,4 @@
+
 name: flutter-ci
 on:
   push:
@@ -11,29 +12,21 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04, windows-2019, macos-11]
+        os: [ubuntu-18.04, windows-2019, macos-10.15]
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
-
-      - name: Clone Flutter repository with the latest stable channel
-        uses: subosito/flutter-action@v2
+      # Set up Flutter.
+      - name: Clone Flutter repository with master channel
+        uses: subosito/flutter-action@v1.5.0
         with:
           channel: stable
-
       - run: flutter doctor -v
 
       - name: Get pub packages
-        run: flutter pub get
+        uses: actions/checkout@v2
+      - run: flutter pub get
 
-      - name: Create .env file
-        run: echo "API_KEY=${http://3.39.154.249}" > .env
-
-      - name: Analyze code
-        run: flutter analyze
-
+      - run: flutter analyze
       - name: Ensure the Dart code is formatted correctly
         run: flutter format --set-exit-if-changed --dry-run .
-
       - name: Run Flutter unit tests
         run: flutter test
