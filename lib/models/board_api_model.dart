@@ -3,7 +3,7 @@ class BoardGetApi {
   final String title;
   final int gallery;
   final int like;
-  final bool? is_admin;
+  final bool? isAdmin;
   final List<dynamic>? images;
   final String? content;
   final String? name;
@@ -15,7 +15,7 @@ class BoardGetApi {
     required this.title,
     required this.gallery,
     required this.like,
-    this.is_admin,
+    this.isAdmin,
     this.images,
     this.content,
     this.name,
@@ -27,7 +27,7 @@ class BoardGetApi {
         title = json['title'],
         gallery = json['gallery'],
         like = json['like'],
-        is_admin = json['is_admin'],
+        isAdmin = json['is_admin'],
         images = json['images'],
         content = json['content'],
         name = json['name'],

@@ -13,7 +13,6 @@ class FetchGalleryApi {
           await _dio.get('$_url/gallery', queryParameters: _queryParameers);
       if (response.statusCode == 200) {
         List<dynamic> data = response.data;
-        print(data);
         return data.map((e) => GalleryGetApiModel.fromJson(e)).toList();
       } else {
         return [];

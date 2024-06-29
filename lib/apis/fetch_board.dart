@@ -11,7 +11,6 @@ class FetchBoardApi {
       var response = await _dio.get('$_url/post');
       if (response.statusCode == 200) {
         List<dynamic> data = response.data;
-        print(data);
         return data.map((e) => BoardGetApi.fromJson(e)).toList();
       } else {
         return [];
