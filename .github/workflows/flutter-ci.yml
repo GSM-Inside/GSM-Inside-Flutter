@@ -19,12 +19,15 @@ jobs:
       - name: Clone Flutter repository with the latest stable channel
         uses: subosito/flutter-action@v2
         with:
-          channel: stable  # 안정적인 최신 채널을 사용합니다.
+          channel: stable
 
       - run: flutter doctor -v
 
       - name: Get pub packages
         run: flutter pub get
+
+      - name: Create .env file
+        run: echo "API_KEY=${http://3.39.154.249}" > .env
 
       - name: Analyze code
         run: flutter analyze
