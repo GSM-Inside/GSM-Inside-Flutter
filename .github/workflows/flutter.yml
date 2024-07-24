@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Copy Secret To application module
         env:
-          PROJECT_API_URL: ${{ secrets.PROJECT_API_URL}}				
+          PROJECT_API_URL: ${{secrets.PROJECT_API_URL}}				
           PROJECT_API_URL_DIR: config/
           PROJECT_API_URL_TEST_DIR: config/
           PROJECT_API_URL_DIR_FILE_NAME: env.yml						
