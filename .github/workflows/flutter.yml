@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-
   pull_request:
 
 jobs:
@@ -11,13 +10,14 @@ jobs:
     name: Run flutter test and analyze
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+
       - name: Copy Secret To application module
         run: |
           echo "PROJECT_API_KEY=$MAP_API_KEY" >> .env
         env:
-          MAP_API_KEY: ${{secrets.PROJECT_API_KEY}}
+          MAP_API_KEY: ${{ secrets.PROJECT_API_KEY }}
 
-      - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
         with:
           java-version: "12.x"
@@ -33,6 +33,13 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: Copy Secret To application module
+        run: |
+          echo "PROJECT_API_KEY=$MAP_API_KEY" >> .env
+        env:
+          MAP_API_KEY: ${{ secrets.PROJECT_API_KEY }}
+
       - uses: actions/setup-java@v1
         with:
           java-version: "12.x"
@@ -49,6 +56,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: Copy Secret To application module
+        run: |
+          echo "PROJECT_API_KEY=$MAP_API_KEY" >> .env
+        env:
+          MAP_API_KEY: ${{ secrets.PROJECT_API_KEY }}
+
       - uses: actions/setup-java@v1
         with:
           java-version: "12.x"
