@@ -11,11 +11,14 @@ jobs:
     name: Run flutter test and analyze
     runs-on: ubuntu-latest
     steps:
-     - name: Create .env file
-        run: |
-          cat > config/.env <<EOF
-          BACKEND_URL=${http://3.39.154.249}
-          EOF
+      - name: Copy Secret To application module
+        env:
+          PROJECT_API_URL: ${{ secrets.PROJECT_API_URL}}				
+          PROJECT_API_URL_DIR: config/.env	
+          PROJECT_API_URL_TEST_DIR: config/.env
+          PROJECT_API_URL_DIR_FILE_NAME: env.yml						
+        run: echo $PROJECT_API_URL | base64 --decode > $PROJECT_API_URL_DIR/$PROJECT_API_URL_DIR_FILE_NAME && 	
+              echo $PROJECT_API_URL | base64 --decode > $PROJECT_API_URL_TEST_DIR/$PROJECT_API_URL_DIR_FILE_NAME
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
         with:
