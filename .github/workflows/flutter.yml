@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Copy Secret To application module
         run: |
-          echo PROJECT_API_KEY=${{ secrets.PROJECT_API_URI }} >> config/.env
+          echo PROJECT_API_KEY=${{ secrets.PROJECT_API_URI }} >> .env
         env:
           MAP_API_KEY: ${{secrets.PROJECT_API_KEY}}
 
