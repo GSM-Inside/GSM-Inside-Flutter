@@ -5,7 +5,7 @@ import 'package:flutter_web_frame/flutter_web_frame.dart';
 import 'package:gsm_inside_flutter/router.dart';
 
 void main() async {
-  await dotenv.load(fileName: 'config/.env');
+  await dotenv.load(fileName: '.env');
   runApp(
     const MyApp(),
   );
