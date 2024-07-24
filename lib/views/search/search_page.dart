@@ -1,22 +1,31 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gsm_inside_flutter/components/search_components.dart';
 import 'package:gsm_inside_flutter/designSystem/gi_color.dart';
 import 'package:gsm_inside_flutter/designSystem/gi_fontsize.dart';
-import 'package:gsm_inside_flutter/provider/search_history_notifier.dart';
 
-class SearchPage extends ConsumerWidget {
+class SearchPage extends StatelessWidget {
   SearchPage({super.key});
 
   final TextEditingController controller = TextEditingController();
 
+  double verticalValue() {
+    if (kIsWeb) {
+      return 20;
+    } else {
+      return 0;
+    }
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final searchHistory = ref.watch(searchHistoryProvider);
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18),
+          padding: EdgeInsets.symmetric(
+            horizontal: 18,
+            vertical: verticalValue(),
+          ),
           child: Column(
             children: [
               Row(
@@ -41,19 +50,11 @@ class SearchPage extends ConsumerWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: TextField(
-                            onSubmitted: (term) {
-                              ref
-                                  .read(searchHistoryProvider.notifier)
-                                  .addSearchTerm(term);
-                              controller.clear();
-                            },
+                            onSubmitted: (term) {},
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: '게시판을 찾아보세요',
-                              hintStyle: TextStyle(
-                                  fontSize: 14,
-                                  color: const Color(0xffadadad),
-                                  fontFamily: GIFontSize.pretendard_300),
+                              hintStyle: TextStyle(fontSize: 14, color: const Color(0xffadadad), fontFamily: GIFontSize.pretendard_300),
                             ),
                             cursorColor: Colors.black,
                           ),
@@ -68,9 +69,9 @@ class SearchPage extends ConsumerWidget {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: searchHistory.history.length,
+                  itemCount: 1,
                   itemBuilder: (context, index) {
-                    final String searchWord = searchHistory.history[index];
+                    const String searchWord = 'ㅋㅋ';
                     return SearchComponents(
                       searchWord: searchWord,
                       index: index,

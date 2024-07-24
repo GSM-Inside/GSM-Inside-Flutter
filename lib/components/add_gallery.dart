@@ -11,7 +11,7 @@ class AddGallery extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.go('/make'),
+      onTap: () => context.goNamed('make'),
       child: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: 26,

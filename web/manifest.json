@@ -1,6 +1,6 @@
 {
-    "name": "gsm_inside_flutter",
-    "short_name": "gsm_inside_flutter",
+    "name": "signet_flutter",
+    "short_name": "signet_flutter",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

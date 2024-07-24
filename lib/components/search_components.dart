@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gsm_inside_flutter/designSystem/gi_color.dart';
 import 'package:gsm_inside_flutter/designSystem/gi_fontsize.dart';
 import 'package:gsm_inside_flutter/designSystem/gi_text.dart';
-import 'package:gsm_inside_flutter/provider/search_history_notifier.dart';
 
 class SearchComponents extends ConsumerWidget {
   final String searchWord;
@@ -40,9 +39,7 @@ class SearchComponents extends ConsumerWidget {
           ),
         ),
         GestureDetector(
-          onTap: () {
-            ref.read(searchHistoryProvider.notifier).removeSearchTerm(index);
-          },
+          onTap: () {},
           child: SvgPicture.asset('assets/images/delete.svg'),
         )
       ],

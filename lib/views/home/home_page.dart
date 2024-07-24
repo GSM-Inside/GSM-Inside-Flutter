@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:gsm_inside_flutter/apis/fetch_board.dart';
-import 'package:gsm_inside_flutter/apis/fetch_gallery.dart';
 import 'package:gsm_inside_flutter/components/add_gallery.dart';
 import 'package:gsm_inside_flutter/components/gallery_preview.dart';
 import 'package:gsm_inside_flutter/designSystem/gi_color.dart';
@@ -25,28 +23,10 @@ class _HomepageState extends State<Homepage> {
   List<GalleryGetApiModel> postsDetail = [];
   bool loading = false;
 
-  void fetchPostsAndGallerys() async {
-    var dummy_1 = await FetchBoardApi().getApiFetch();
-    var dummy_2 = await FetchGalleryApi().getApiFetch();
-    setState(() {
-      posts = dummy_1;
-      gallerys = dummy_2;
-      loading = true;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    fetchPostsAndGallerys();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        scrolledUnderElevation: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -57,7 +37,7 @@ class _HomepageState extends State<Homepage> {
             ),
             GIImageButton(
               onPressed: () {
-                context.go('/search');
+                context.goNamed('search');
               },
               assetName: 'assets/images/mdi-light_magnify.svg',
             ),
@@ -108,8 +88,7 @@ class _HomepageState extends State<Homepage> {
                         height: 16,
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                         decoration: BoxDecoration(
                           borderRadius: const BorderRadius.all(
                             Radius.circular(10),
@@ -171,12 +150,13 @@ class _HomepageState extends State<Homepage> {
                         height: 16,
                       ),
                       ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: posts.length,
-                          itemBuilder: (context, index) {
-                            return null;
-                          }),
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: posts.length,
+                        itemBuilder: (context, index) {
+                          return null;
+                        },
+                      ),
                     ],
                   ),
                 ),

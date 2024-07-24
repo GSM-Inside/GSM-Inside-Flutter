@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gsm_inside_flutter/views/gallery/gallery_page.dart';
 import 'package:gsm_inside_flutter/views/gallery/make_gallery_page.dart';
@@ -10,19 +11,31 @@ class PageRouter {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const Homepage(),
+        name: 'home',
+        pageBuilder: (context, state) => const CupertinoPage(
+          child: Homepage(),
+        ),
         routes: [
           GoRoute(
             path: 'gallery',
-            builder: (context, state) => const GalleryPage(),
+            name: 'gallery',
+            pageBuilder: (context, state) => const CupertinoPage(
+              child: GalleryPage(),
+            ),
           ),
           GoRoute(
             path: 'make',
-            builder: (context, state) => const MakeGalleryPage(),
+            name: 'make',
+            pageBuilder: (context, state) => const CupertinoPage(
+              child: MakeGalleryPage(),
+            ),
           ),
           GoRoute(
             path: 'search',
-            builder: (context, state) => SearchPage(),
+            name: 'search',
+            pageBuilder: (context, state) => CupertinoPage(
+              child: SearchPage(),
+            ),
           )
         ],
       ),
