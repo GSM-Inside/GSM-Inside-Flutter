@@ -26,6 +26,58 @@ jobs:
           channel: "stable"
       - run: flutter pub get
       - run: flutter analyze
+      - env:
+          DATA: >
+            {
+                "embeds": [
+                    {
+                        "title": "CI 성공이노 :)",
+                        "description": "** COMMIT MESSAGE **\n```\nAnd also code blocks\n```",
+                        "color": 46335,
+                        "timestamp": "2024-07-26T01:04:35.181Z",
+                        "url": "https://discord.com",
+                        "author": {
+                            "name": "iloveuhyeon",
+                            "url": "https://discord.com",
+                            "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png"
+                        },
+                        "thumbnail": {
+                            "url": "https://cdn.discordapp.com/embed/avatars/0.png"
+                        },
+                        "image": {
+                            "url": "https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWgzaWp5dnprYTVlcXpqbTd6MHFwcnpwZnhlMzMyZXNzbWc3Z2RxdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RLW9YEaSBfBMt79fm4/giphy.gif"
+                        },
+                        "footer": {
+                            "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png"
+                        },
+                        "fields": [
+                            {
+                                "name": "Repository",
+                                "value": "> [Signet-GSM/Signet-Flutter](https://github.com/Signet-GSM/Signet-Flutter)\n"
+                            },
+                            {
+                                "name": "Branch",
+                                "value": "> [Branch](branch ur)",
+                                "inline": false
+                            },
+                            {
+                                "name": "Workflow",
+                                "value": "> [CI](CI url)",
+                                "inline": false
+                            },
+                            {
+                                "value": "Field value",
+                                "inline": false
+                            }
+                        ]
+                    }
+                ]
+            }
+        run: >
+          curl -X
+          POST -H 'Content-type:application/json'
+          -d "$DATA"
+          ${{ secrets.DISCORD_WEBHOOL_URL }} 
 
   build_ios:
     name: Build Flutter (iOS)
@@ -50,8 +102,6 @@ jobs:
       - run: flutter clean
       - run: flutter build ios --release --no-codesign
 
-    
-
   build_appbundle:
     name: Build Flutter (Android)
     needs: [flutter_test]
@@ -74,5 +124,3 @@ jobs:
       - run: flutter pub get
       - run: flutter clean
       - run: flutter build appbundle
-
-    
