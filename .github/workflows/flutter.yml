@@ -29,23 +29,24 @@ jobs:
       - run: flutter pub get
       - run: flutter analyze
 
-      env:
+      - name: Send Notification
+        env:
           DATA: >
             {
               "embeds": [
                 {
                   "title": "CI 성공이노 :)",
-                  "description": "** COMMIT MESSAGE **\n\n${{ toJson(github.event.head_commit.message) }}\n",
+                  "description": "** COMMIT MESSAGE **\n\n${{ github.event.head_commit.message }}\n",
                   "color": 46335,
                   "timestamp": "2024-07-26T01:04:35.181Z",
-                  "url": ${{ toJson(github.server_url + '/' + github.repository + '/actions/runs/' + github.run_id) }},
+                  "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
                   "author": {
-                    "name":  ${{ toJson(github.event.sender.login) }},
-                    "url": ${{ toJson(github.event.sender.html_url) }},
-                    "icon_url": ${{ toJson(github.event.sender.avatar_url) }}
+                    "name": "${{ github.event.sender.login }}",
+                    "url": "${{ github.event.sender.html_url }}",
+                    "icon_url": "${{ github.event.sender.avatar_url }}"
                   },
                   "thumbnail": {
-                    "url": ${{ toJson(github.event.sender.avatar_url) }}
+                    "url": "${{ github.event.sender.avatar_url }}"
                   },
                   "image": {
                     "url": "https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWgzaWp5dnprYTVlcXpqbTd6MHFwcnpwZnhlMzMyZXNzbWc3Z2RxdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RLW9YEaSBfBMt79fm4/giphy.gif"
@@ -60,12 +61,14 @@ jobs:
                     },
                     {
                       "name": "Branch",
-                      "value": "> [${{ toJson(github.ref) }}](https://github.com/${{ toJson(github.repository) }}/tree/${{ toJson(github.ref.replace('refs/heads/', '')) }})",
+                      "value": "> [${{ github.ref }}](https://github.com/${{ github.repository }}/tree/${{ github.ref.replace('refs/heads/', '') }})",
                       "inline": false
                     },
                     {
                       "name": "Workflow",
-                      "value": "> [CI](${{ toJson(github.server_url + '/' + github.repository + '/actions/runs/' + github.run_id) }})",
+                      "value": "> [CI](${{
+                        github.server_url
+                      }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
                       "inline": false
                     }
                   ]
@@ -89,7 +92,6 @@ jobs:
         env:
           MAP_API_KEY: ${{ secrets.PROJECT_API_KEY }}
 
-     
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
@@ -114,7 +116,6 @@ jobs:
         env:
           MAP_API_KEY: ${{ secrets.PROJECT_API_KEY }}
 
-    
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
