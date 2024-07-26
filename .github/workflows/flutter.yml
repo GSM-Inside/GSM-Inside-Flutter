@@ -33,14 +33,15 @@ jobs:
         id: timestamp
         run: echo "TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
 
-      - name: Send Notification
+      - name: Notify Success
+        if: success()
         env:
           DATA: >
             {
               "embeds": [
                 {
                   "title": "CI 성공이노 :)",
-                  "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}",
+                  "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
                   "color": 46335,
                   "timestamp": "${{ env.TIMESTAMP }}",
                   "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
@@ -53,10 +54,63 @@ jobs:
                     "url": "${{ github.event.sender.avatar_url }}"
                   },
                   "image": {
-                    "url": "https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWgzaWp5dnprYTVlcXpqbTd6MHFwcnpwZnhlMzMyZXNzbWc3Z2RxdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RLW9YEaSBfBMt79fm4/giphy.gif"
+                    "url": "${{ secrets.SUCCESS_FLUTTER_IMAGE }}"
                   },
                   "footer": {
                     "text": "북딱 흔드르라",
+                    "icon_url": "https://steamuserimages-a.akamaihd.net/ugc/809998067550420747/A4B8A0FDB2C3A688FC556B47162698B94F038324/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
+                  },
+                  "fields": [
+                    {
+                      "name": "Repository",
+                      "value": "> [Signet-GSM/Signet-Flutter](https://github.com/Signet-GSM/Signet-Flutter)\n"
+                    },
+                    {
+                      "name": "Branch",
+                      "value": "> [${{ github.ref }}](https://github.com/${{ github.repository }}/tree/${{ github.ref_name }})",
+                      "inline": false
+                    },
+                    {
+                      "name": "Workflow",
+                      "value": "> [CI](${{
+                        github.server_url
+                      }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                      "inline": false
+                    }
+                  ]
+                }
+              ]
+            }
+        run: >
+          curl -X POST -H 'Content-type:application/json'
+          -d "$DATA"
+          "${{ secrets.DISCORD_WEBHOOK_URL }}"
+
+      - name: Notify Failure
+        if: failure()
+        env:
+          DATA: >
+            {
+              "embeds": [
+                {
+                  "title": "CI 실패했노 :(",
+                  "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
+                  "color": 16711680,
+                  "timestamp": "${{ env.TIMESTAMP }}",
+                  "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                  "author": {
+                    "name": "${{ github.event.sender.login }}",
+                    "url": "${{ github.event.sender.html_url }}",
+                    "icon_url": "${{ github.event.sender.avatar_url }}"
+                  },
+                  "thumbnail": {
+                    "url": "${{ github.event.sender.avatar_url }}"
+                  },
+                  "image": {
+                    "url": "${{ secrets.FAIL_FLUTTER_IMAGE }}"
+                  },
+                  "footer": {
+                    "text": "북딱 흔드릈다",
                     "icon_url": "https://steamuserimages-a.akamaihd.net/ugc/809998067550420747/A4B8A0FDB2C3A688FC556B47162698B94F038324/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
                   },
                   "fields": [
@@ -109,6 +163,117 @@ jobs:
       - run: flutter clean
       - run: flutter build ios --release --no-codesign
 
+      - name: Set timestamp
+        id: timestamp
+        run: echo "TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
+
+      - name: Notify Success
+        if: success()
+        env:
+          DATA: >
+            {
+              "embeds": [
+                {
+                  "title": "IOS도 성공이노 :)",
+                  "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
+                  "color": 46335,
+                  "timestamp": "${{ env.TIMESTAMP }}",
+                  "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                  "author": {
+                    "name": "${{ github.event.sender.login }}",
+                    "url": "${{ github.event.sender.html_url }}",
+                    "icon_url": "${{ github.event.sender.avatar_url }}"
+                  },
+                  "thumbnail": {
+                    "url": "${{ github.event.sender.avatar_url }}"
+                  },
+                  "image": {
+                    "url": "${{ secrets.SUCCESS_IOS_IMAGE }}"
+                  },
+                  "footer": {
+                    "text": "북딱 흔드르라",
+                    "icon_url": "https://steamuserimages-a.akamaihd.net/ugc/809998067550420747/A4B8A0FDB2C3A688FC556B47162698B94F038324/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
+                  },
+                  "fields": [
+                    {
+                      "name": "Repository",
+                      "value": "> [Signet-GSM/Signet-Flutter](https://github.com/Signet-GSM/Signet-Flutter)\n"
+                    },
+                    {
+                      "name": "Branch",
+                      "value": "> [${{ github.ref }}](https://github.com/${{ github.repository }}/tree/${{ github.ref_name }})",
+                      "inline": false
+                    },
+                    {
+                      "name": "Workflow",
+                      "value": "> [CI](${{
+                        github.server_url
+                      }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                      "inline": false
+                    }
+                  ]
+                }
+              ]
+            }
+        run: >
+          curl -X POST -H 'Content-type:application/json'
+          -d "$DATA"
+          "${{ secrets.DISCORD_WEBHOOK_URL_IOS }}"
+
+      - name: Notify Failure
+        if: failure()
+        env:
+          DATA: >
+            {
+              "embeds": [
+                {
+                  "title": "IOS 실패했노 :(",
+                  "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
+                  "color": 16711680,
+                  "timestamp": "${{ env.TIMESTAMP }}",
+                  "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                  "author": {
+                    "name": "${{ github.event.sender.login }}",
+                    "url": "${{ github.event.sender.html_url }}",
+                    "icon_url": "${{ github.event.sender.avatar_url }}"
+                  },
+                  "thumbnail": {
+                    "url": "${{ github.event.sender.avatar_url }}"
+                  },
+                  "image": {
+                    "url": "${{ secrets.FAIL_IOS_IMAGE }}"
+                  },
+                  "footer": {
+                    "text": "북딱 흔드릈다",
+                    "icon_url": "https://steamuserimages-a.akamaihd.net/ugc/809998067550420747/A4B8A0FDB2C3A688FC556B47162698B94F038324/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
+                  },
+                  "fields": [
+                    {
+                      "name": "Repository",
+                      "value": "> [Signet-GSM/Signet-Flutter](https://github.com/Signet-GSM/Signet-Flutter)\n"
+                    },
+                    {
+                      "name": "Branch",
+                      "value": "> [${{ github.ref }}](https://github.com/${{ github.repository }}/tree/${{ github.ref_name }})",
+                      "inline": false
+                    },
+                    {
+                      "name": "Workflow",
+                      "value": "> [CI](${{
+                        github.server_url
+                      }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                      "inline": false
+                    }
+                  ]
+                }
+              ]
+            }
+        run: >
+          curl -X POST -H 'Content-type:application/json'
+          -d "$DATA"
+          "${{ secrets.DISCORD_WEBHOOK_URL_IOS }}"
+
+
   build_appbundle:
     name: Build Flutter (Android)
     needs: [flutter_test]
@@ -132,3 +297,113 @@ jobs:
       - run: flutter pub get
       - run: flutter clean
       - run: flutter build appbundle
+
+      - name: Set timestamp
+        id: timestamp
+        run: echo "TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
+
+      - name: Notify Success
+        if: success()
+        env:
+          DATA: >
+            {
+              "embeds": [
+                {
+                  "title": "Andriod도 성공이노 :)",
+                  "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
+                  "color": 46335,
+                  "timestamp": "${{ env.TIMESTAMP }}",
+                  "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                  "author": {
+                    "name": "${{ github.event.sender.login }}",
+                    "url": "${{ github.event.sender.html_url }}",
+                    "icon_url": "${{ github.event.sender.avatar_url }}"
+                  },
+                  "thumbnail": {
+                    "url": "${{ github.event.sender.avatar_url }}"
+                  },
+                  "image": {
+                    "url": "${{ secrets.SUCCESS_ANDROID_IMAGE }}"
+                  },
+                  "footer": {
+                    "text": "북딱 흔드르라",
+                    "icon_url": "https://steamuserimages-a.akamaihd.net/ugc/809998067550420747/A4B8A0FDB2C3A688FC556B47162698B94F038324/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
+                  },
+                  "fields": [
+                    {
+                      "name": "Repository",
+                      "value": "> [Signet-GSM/Signet-Flutter](https://github.com/Signet-GSM/Signet-Flutter)\n"
+                    },
+                    {
+                      "name": "Branch",
+                      "value": "> [${{ github.ref }}](https://github.com/${{ github.repository }}/tree/${{ github.ref_name }})",
+                      "inline": false
+                    },
+                    {
+                      "name": "Workflow",
+                      "value": "> [CI](${{
+                        github.server_url
+                      }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                      "inline": false
+                    }
+                  ]
+                }
+              ]
+            }
+        run: >
+          curl -X POST -H 'Content-type:application/json'
+          -d "$DATA"
+          "${{ secrets.DISCORD_WEBHOOK_URL_ANDROID }}"
+
+      - name: Notify Failure
+        if: failure()
+        env:
+          DATA: >
+            {
+              "embeds": [
+                {
+                  "title": "Andriod 실패했노 :(",
+                  "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
+                  "color": 16711680,
+                  "timestamp": "${{ env.TIMESTAMP }}",
+                  "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                  "author": {
+                    "name": "${{ github.event.sender.login }}",
+                    "url": "${{ github.event.sender.html_url }}",
+                    "icon_url": "${{ github.event.sender.avatar_url }}"
+                  },
+                  "thumbnail": {
+                    "url": "${{ github.event.sender.avatar_url }}"
+                  },
+                  "image": {
+                    "url": "${{ secrets.FAIL_ANDROID_IMAGE }}"
+                  },
+                  "footer": {
+                    "text": "북딱 흔드릈다",
+                    "icon_url": "https://steamuserimages-a.akamaihd.net/ugc/809998067550420747/A4B8A0FDB2C3A688FC556B47162698B94F038324/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
+                  },
+                  "fields": [
+                    {
+                      "name": "Repository",
+                      "value": "> [Signet-GSM/Signet-Flutter](https://github.com/Signet-GSM/Signet-Flutter)\n"
+                    },
+                    {
+                      "name": "Branch",
+                      "value": "> [${{ github.ref }}](https://github.com/${{ github.repository }}/tree/${{ github.ref_name }})",
+                      "inline": false
+                    },
+                    {
+                      "name": "Workflow",
+                      "value": "> [CI](${{
+                        github.server_url
+                      }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                      "inline": false
+                    }
+                  ]
+                }
+              ]
+            }
+        run: >
+          curl -X POST -H 'Content-type:application/json'
+          -d "$DATA"
+          "${{ secrets.DISCORD_WEBHOOK_URL_ANDROID }}"
