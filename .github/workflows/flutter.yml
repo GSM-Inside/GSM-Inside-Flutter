@@ -41,7 +41,7 @@ jobs:
               "embeds": [
                 {
                   "title": "CI 성공이노 :)",
-                  "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
+                  "description": "** COMMIT MESSAGE **\n> ${{ github.event.head_commit.message }}\n",
                   "color": 46335,
                   "timestamp": "${{ env.TIMESTAMP }}",
                   "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
@@ -94,7 +94,7 @@ jobs:
               "embeds": [
                 {
                   "title": "CI 실패했노 :(",
-                  "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
+                  "description": "** COMMIT MESSAGE **\n> ${{ github.event.head_commit.message }}\n",
                   "color": 16711680,
                   "timestamp": "${{ env.TIMESTAMP }}",
                   "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
@@ -175,7 +175,7 @@ jobs:
               "embeds": [
                 {
                   "title": "IOS도 성공이노 :)",
-                  "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
+                  "description": "** COMMIT MESSAGE **\n> ${{ github.event.head_commit.message }}\n",
                   "color": 46335,
                   "timestamp": "${{ env.TIMESTAMP }}",
                   "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
@@ -228,7 +228,7 @@ jobs:
               "embeds": [
                 {
                   "title": "IOS 실패했노 :(",
-                  "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
+                  "description": "** COMMIT MESSAGE **\n> ${{ github.event.head_commit.message }}\n",
                   "color": 16711680,
                   "timestamp": "${{ env.TIMESTAMP }}",
                   "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
@@ -310,7 +310,7 @@ jobs:
               "embeds": [
                 {
                   "title": "Andriod도 성공이노 :)",
-                  "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
+                  "description": "** COMMIT MESSAGE **\n> ${{ github.event.head_commit.message }}\n",
                   "color": 46335,
                   "timestamp": "${{ env.TIMESTAMP }}",
                   "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
@@ -363,7 +363,7 @@ jobs:
               "embeds": [
                 {
                   "title": "Andriod 실패했노 :(",
-                  "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
+                  "description": "** COMMIT MESSAGE **\n> ${{ github.event.head_commit.message }}\n",
                   "color": 16711680,
                   "timestamp": "${{ env.TIMESTAMP }}",
                   "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
