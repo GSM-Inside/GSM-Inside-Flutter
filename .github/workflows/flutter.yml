@@ -29,62 +29,23 @@ jobs:
       - run: flutter pub get
       - run: flutter analyze
 
-      - name: Set Variables for Discord Notification
-        id: vars
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const ref = process.env.GITHUB_REF;
-            const branch = ref.split('refs/heads/')[1];
-            const commitMessage = process.env.GITHUB_EVENT_HEAD_COMMIT_MESSAGE;
-            const timestamp = process.env.GITHUB_EVENT_HEAD_COMMIT_TIMESTAMP;
-            const serverUrl = process.env.GITHUB_SERVER_URL;
-            const repository = process.env.GITHUB_REPOSITORY;
-            const runId = process.env.GITHUB_RUN_ID;
-            const senderLogin = process.env.GITHUB_EVENT_SENDER_LOGIN;
-            const senderHtmlUrl = process.env.GITHUB_EVENT_SENDER_HTML_URL;
-            const senderAvatarUrl = process.env.GITHUB_EVENT_SENDER_AVATAR_URL;
-
-            return {
-              branch,
-              commitMessage,
-              timestamp,
-              serverUrl,
-              repository,
-              runId,
-              senderLogin,
-              senderHtmlUrl,
-              senderAvatarUrl
-            };
-        env:
-          GITHUB_REF: ${{ github.ref }}
-          GITHUB_EVENT_HEAD_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-          GITHUB_EVENT_HEAD_COMMIT_TIMESTAMP: ${{ github.event.head_commit.timestamp }}
-          GITHUB_SERVER_URL: ${{ github.server_url }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-          GITHUB_RUN_ID: ${{ github.run_id }}
-          GITHUB_EVENT_SENDER_LOGIN: ${{ github.event.sender.login }}
-          GITHUB_EVENT_SENDER_HTML_URL: ${{ github.event.sender.html_url }}
-          GITHUB_EVENT_SENDER_AVATAR_URL: ${{ github.event.sender.avatar_url }}
-
-      - name: Send Discord Notification
-        env:
-          DATA: |
+      env:
+          DATA: >
             {
               "embeds": [
                 {
                   "title": "CI 성공이노 :)",
-                  "description": "** COMMIT MESSAGE **\n```\n${{ steps.vars.outputs.commitMessage }}\n```",
+                  "description": "** COMMIT MESSAGE **\n\n${{ toJson(github.event.head_commit.message) }}\n",
                   "color": 46335,
-                  "timestamp": "${{ steps.vars.outputs.timestamp }}",
-                  "url": "${{ steps.vars.outputs.serverUrl }}/${{ steps.vars.outputs.repository }}/actions/runs/${{ steps.vars.outputs.runId }}",
+                  "timestamp": "2024-07-26T01:04:35.181Z",
+                  "url": ${{ toJson(github.server_url + '/' + github.repository + '/actions/runs/' + github.run_id) }},
                   "author": {
-                    "name": "${{ steps.vars.outputs.senderLogin }}",
-                    "url": "${{ steps.vars.outputs.senderHtmlUrl }}",
-                    "icon_url": "${{ steps.vars.outputs.senderAvatarUrl }}"
+                    "name":  ${{ toJson(github.event.sender.login) }},
+                    "url": ${{ toJson(github.event.sender.html_url) }},
+                    "icon_url": ${{ toJson(github.event.sender.avatar_url) }}
                   },
                   "thumbnail": {
-                    "url": "${{ steps.vars.outputs.senderAvatarUrl }}"
+                    "url": ${{ toJson(github.event.sender.avatar_url) }}
                   },
                   "image": {
                     "url": "https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWgzaWp5dnprYTVlcXpqbTd6MHFwcnpwZnhlMzMyZXNzbWc3Z2RxdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RLW9YEaSBfBMt79fm4/giphy.gif"
@@ -99,21 +60,21 @@ jobs:
                     },
                     {
                       "name": "Branch",
-                      "value": "> [${{ steps.vars.outputs.branch }}](https://github.com/${{ steps.vars.outputs.repository }}/tree/${{ steps.vars.outputs.branch }})",
+                      "value": "> [${{ toJson(github.ref) }}](https://github.com/${{ toJson(github.repository) }}/tree/${{ toJson(github.ref.replace('refs/heads/', '')) }})",
                       "inline": false
                     },
                     {
                       "name": "Workflow",
-                      "value": "> [CI](${ { steps.vars.outputs.serverUrl }}/${{ steps.vars.outputs.repository }}/actions/runs/${{ steps.vars.outputs.runId }})",
+                      "value": "> [CI](${{ toJson(github.server_url + '/' + github.repository + '/actions/runs/' + github.run_id) }})",
                       "inline": false
                     }
                   ]
                 }
               ]
             }
-        run: |
-          curl -X POST -H 'Content-type: application/json' \
-          -d "$DATA" \
+        run: >
+          curl -X POST -H 'Content-type:application/json'
+          -d "$DATA"
           "${{ secrets.DISCORD_WEBHOOK_URL }}"
 
   build_ios:
@@ -128,11 +89,12 @@ jobs:
         env:
           MAP_API_KEY: ${{ secrets.PROJECT_API_KEY }}
 
-      - uses: actions/setup-java@v2
+     
+      - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
           
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@v1
         with:
           channel: 'stable'
 
@@ -152,11 +114,12 @@ jobs:
         env:
           MAP_API_KEY: ${{ secrets.PROJECT_API_KEY }}
 
-      - uses: actions/setup-java@v2
+    
+      - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
           
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@v1
         with:
           channel: 'stable'
 
