@@ -73,11 +73,11 @@ jobs:
                     }
                 ]
             }
-        run: >
-          curl -X
-          POST -H 'Content-type:application/json'
-          -d "$DATA"
-          ${{ secrets.DISCORD_WEBHOOL_URL }} 
+          run: >
+           curl -X
+           POST -H 'Content-type:application/json'
+           -d "$DATA"
+           ${{ secrets.DISCORD_WEBHOOL_URL }} 
 
   build_ios:
     name: Build Flutter (iOS)
