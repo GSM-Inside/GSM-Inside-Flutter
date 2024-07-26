@@ -30,6 +30,7 @@ jobs:
       - run: flutter analyze
 
       - name: Send Notification
+        run: echo "TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
         env:
           DATA: >
             {
@@ -38,7 +39,7 @@ jobs:
                   "title": "CI 성공이노 :)",
                   "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}",
                   "color": 46335,
-                  "timestamp": "2024-07-26T01:04:35.181Z",
+                  "timestamp": ${{ env.TIMESTAMP }},
                   "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
                   "author": {
                     "name": "${{ github.event.sender.login }}",
