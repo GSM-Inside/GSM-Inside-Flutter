@@ -36,7 +36,7 @@ jobs:
       - name: Notify Success
         if: success()
         env:
-          DATA: >
+          DATA: |
             {
               "embeds": [
                 {
@@ -81,15 +81,17 @@ jobs:
                 }
               ]
             }
-        run: >
-          curl -X POST -H 'Content-type:application/json'
-          -d "$DATA"
-          "${{ secrets.DISCORD_WEBHOOK_URL }}"
+        run: |
+          echo "DATA content:"
+          echo "$DATA"
+          echo "Webhook URL:"
+          echo "${{ secrets.DISCORD_WEBHOOK_URL }}"
+          curl -X POST -H 'Content-type:application/json' -d "$DATA" "${{ secrets.DISCORD_WEBHOOK_URL }}"
 
       - name: Notify Failure
         if: failure()
         env:
-          DATA: >
+          DATA: |
             {
               "embeds": [
                 {
@@ -134,10 +136,12 @@ jobs:
                 }
               ]
             }
-        run: >
-          curl -X POST -H 'Content-type:application/json'
-          -d "$DATA"
-          "${{ secrets.DISCORD_WEBHOOK_URL }}"
+        run: |
+          echo "DATA content:"
+          echo "$DATA"
+          echo "Webhook URL:"
+          echo "${{ secrets.DISCORD_WEBHOOK_URL }}"
+          curl -X POST -H 'Content-type:application/json' -d "$DATA" "${{ secrets.DISCORD_WEBHOOK_URL }}"
 
   build_ios:
     name: Build Flutter (iOS)
@@ -170,7 +174,7 @@ jobs:
       - name: Notify Success
         if: success()
         env:
-          DATA: >
+          DATA: |
             {
               "embeds": [
                 {
@@ -215,15 +219,17 @@ jobs:
                 }
               ]
             }
-        run: >
-          curl -X POST -H 'Content-type:application/json'
-          -d "$DATA"
-          "${{ secrets.DISCORD_WEBHOOK_URL_IOS }}"
+        run: |
+          echo "DATA content:"
+          echo "$DATA"
+          echo "Webhook URL:"
+          echo "${{ secrets.DISCORD_WEBHOOK_URL_IOS }}"
+          curl -X POST -H 'Content-type:application/json' -d "$DATA" "${{ secrets.DISCORD_WEBHOOK_URL_IOS }}"
 
       - name: Notify Failure
         if: failure()
         env:
-          DATA: >
+          DATA: |
             {
               "embeds": [
                 {
@@ -268,13 +274,14 @@ jobs:
                 }
               ]
             }
-        run: >
-          curl -X POST -H 'Content-type:application/json'
-          -d "$DATA"
-          "${{ secrets.DISCORD_WEBHOOK_URL_IOS }}"
+        run: |
+          echo "DATA content:"
+          echo "$DATA"
+          echo "Webhook URL:"
+          echo "${{ secrets.DISCORD_WEBHOOK_URL_IOS }}"
+          curl -X POST -H 'Content-type:application/json' -d "$DATA" "${{ secrets.DISCORD_WEBHOOK_URL_IOS }}"
 
-
-  build_appbundle:
+  build_android:
     name: Build Flutter (Android)
     needs: [flutter_test]
     runs-on: ubuntu-latest
@@ -296,7 +303,7 @@ jobs:
 
       - run: flutter pub get
       - run: flutter clean
-      - run: flutter build appbundle
+      - run: flutter build apk --release
 
       - name: Set timestamp
         id: timestamp
@@ -305,11 +312,11 @@ jobs:
       - name: Notify Success
         if: success()
         env:
-          DATA: >
+          DATA: |
             {
               "embeds": [
                 {
-                  "title": "Andriod도 성공이노 :)",
+                  "title": "Android도 성공이노 :)",
                   "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
                   "color": 46335,
                   "timestamp": "${{ env.TIMESTAMP }}",
@@ -350,19 +357,21 @@ jobs:
                 }
               ]
             }
-        run: >
-          curl -X POST -H 'Content-type:application/json'
-          -d "$DATA"
-          "${{ secrets.DISCORD_WEBHOOK_URL_ANDROID }}"
+        run: |
+          echo "DATA content:"
+          echo "$DATA"
+          echo "Webhook URL:"
+          echo "${{ secrets.DISCORD_WEBHOOK_URL_ANDROID }}"
+          curl -X POST -H 'Content-type:application/json' -d "$DATA" "${{ secrets.DISCORD_WEBHOOK_URL_ANDROID }}"
 
       - name: Notify Failure
         if: failure()
         env:
-          DATA: >
+          DATA: |
             {
               "embeds": [
                 {
-                  "title": "Andriod 실패했노 :(",
+                  "title": "Android 실패했노 :(",
                   "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
                   "color": 16711680,
                   "timestamp": "${{ env.TIMESTAMP }}",
@@ -403,7 +412,9 @@ jobs:
                 }
               ]
             }
-        run: >
-          curl -X POST -H 'Content-type:application/json'
-          -d "$DATA"
-          "${{ secrets.DISCORD_WEBHOOK_URL_ANDROID }}"
+        run: |
+          echo "DATA content:"
+          echo "$DATA"
+          echo "Webhook URL:"
+          echo "${{ secrets.DISCORD_WEBHOOK_URL_ANDROID }}"
+          curl -X POST -H 'Content-type:application/json' -d "$DATA" "${{ secrets.DISCORD_WEBHOOK_URL_ANDROID }}"
