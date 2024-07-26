@@ -36,12 +36,12 @@ jobs:
       - name: Notify Success
         if: success()
         env:
-          DATA: |
+          DATA: >
             {
               "embeds": [
                 {
                   "title": "CI 성공이노 :)",
-                  "description": "** COMMIT MESSAGE **\n> ${{ github.event.head_commit.message }}\n",
+                  "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
                   "color": 46335,
                   "timestamp": "${{ env.TIMESTAMP }}",
                   "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
@@ -81,23 +81,20 @@ jobs:
                 }
               ]
             }
-        run: |
-          echo "$DATA" > data.json
-          echo "DATA content:"
-          cat data.json
-          echo "Webhook URL:"
-          echo "${{ secrets.DISCORD_WEBHOOK_URL }}"
-          curl -X POST -H 'Content-type:application/json' -d @data.json "${{ secrets.DISCORD_WEBHOOK_URL }}"
+        run: >
+          curl -X POST -H 'Content-type:application/json'
+          -d "$DATA"
+          "${{ secrets.DISCORD_WEBHOOK_URL }}"
 
       - name: Notify Failure
         if: failure()
         env:
-          DATA: |
+          DATA: >
             {
               "embeds": [
                 {
                   "title": "CI 실패했노 :(",
-                  "description": "** COMMIT MESSAGE **\n> ${{ github.event.head_commit.message }}\n",
+                  "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
                   "color": 16711680,
                   "timestamp": "${{ env.TIMESTAMP }}",
                   "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
@@ -137,13 +134,10 @@ jobs:
                 }
               ]
             }
-        run: |
-          echo "$DATA" > data.json
-          echo "DATA content:"
-          cat data.json
-          echo "Webhook URL:"
-          echo "${{ secrets.DISCORD_WEBHOOK_URL }}"
-          curl -X POST -H 'Content-type:application/json' -d @data.json "${{ secrets.DISCORD_WEBHOOK_URL }}"
+        run: >
+          curl -X POST -H 'Content-type:application/json'
+          -d "$DATA"
+          "${{ secrets.DISCORD_WEBHOOK_URL }}"
 
   build_ios:
     name: Build Flutter (iOS)
@@ -176,12 +170,12 @@ jobs:
       - name: Notify Success
         if: success()
         env:
-          DATA: |
+          DATA: >
             {
               "embeds": [
                 {
                   "title": "IOS도 성공이노 :)",
-                  "description": "** COMMIT MESSAGE **\n> ${{ github.event.head_commit.message }}\n",
+                  "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
                   "color": 46335,
                   "timestamp": "${{ env.TIMESTAMP }}",
                   "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
@@ -221,23 +215,20 @@ jobs:
                 }
               ]
             }
-        run: |
-          echo "$DATA" > data.json
-          echo "DATA content:"
-          cat data.json
-          echo "Webhook URL:"
-          echo "${{ secrets.DISCORD_WEBHOOK_URL_IOS }}"
-          curl -X POST -H 'Content-type:application/json' -d @data.json "${{ secrets.DISCORD_WEBHOOK_URL_IOS }}"
+        run: >
+          curl -X POST -H 'Content-type:application/json'
+          -d "$DATA"
+          "${{ secrets.DISCORD_WEBHOOK_URL_IOS }}"
 
       - name: Notify Failure
         if: failure()
         env:
-          DATA: |
+          DATA: >
             {
               "embeds": [
                 {
                   "title": "IOS 실패했노 :(",
-                  "description": "** COMMIT MESSAGE **\n> ${{ github.event.head_commit.message }}\n",
+                  "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
                   "color": 16711680,
                   "timestamp": "${{ env.TIMESTAMP }}",
                   "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
@@ -277,10 +268,142 @@ jobs:
                 }
               ]
             }
-        run: |
-          echo "$DATA" > data.json
-          echo "DATA content:"
-          cat data.json
-          echo "Webhook URL:"
-          echo "${{ secrets.DISCORD_WEBHOOK_URL_IOS }}"
-          curl -X POST -H 'Content-type:application/json' -d @data.json "${{ secrets.DISCORD_WEBHOOK_URL_IOS }}"
+        run: >
+          curl -X POST -H 'Content-type:application/json'
+          -d "$DATA"
+          "${{ secrets.DISCORD_WEBHOOK_URL_IOS }}"
+
+
+  build_appbundle:
+    name: Build Flutter (Android)
+    needs: [flutter_test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Copy Secret To application module
+        run: echo "PROJECT_API_KEY=$MAP_API_KEY" >> .env
+        env:
+          MAP_API_KEY: ${{ secrets.PROJECT_API_KEY }}
+
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+          
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+
+      - run: flutter pub get
+      - run: flutter clean
+      - run: flutter build appbundle
+
+      - name: Set timestamp
+        id: timestamp
+        run: echo "TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
+
+      - name: Notify Success
+        if: success()
+        env:
+          DATA: >
+            {
+              "embeds": [
+                {
+                  "title": "Andriod도 성공이노 :)",
+                  "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
+                  "color": 46335,
+                  "timestamp": "${{ env.TIMESTAMP }}",
+                  "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                  "author": {
+                    "name": "${{ github.event.sender.login }}",
+                    "url": "${{ github.event.sender.html_url }}",
+                    "icon_url": "${{ github.event.sender.avatar_url }}"
+                  },
+                  "thumbnail": {
+                    "url": "${{ github.event.sender.avatar_url }}"
+                  },
+                  "image": {
+                    "url": "${{ secrets.SUCCESS_ANDROID_IMAGE }}"
+                  },
+                  "footer": {
+                    "text": "북딱 흔드르라",
+                    "icon_url": "https://steamuserimages-a.akamaihd.net/ugc/809998067550420747/A4B8A0FDB2C3A688FC556B47162698B94F038324/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
+                  },
+                  "fields": [
+                    {
+                      "name": "Repository",
+                      "value": "> [Signet-GSM/Signet-Flutter](https://github.com/Signet-GSM/Signet-Flutter)\n"
+                    },
+                    {
+                      "name": "Branch",
+                      "value": "> [${{ github.ref }}](https://github.com/${{ github.repository }}/tree/${{ github.ref_name }})",
+                      "inline": false
+                    },
+                    {
+                      "name": "Workflow",
+                      "value": "> [CI](${{
+                        github.server_url
+                      }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                      "inline": false
+                    }
+                  ]
+                }
+              ]
+            }
+        run: >
+          curl -X POST -H 'Content-type:application/json'
+          -d "$DATA"
+          "${{ secrets.DISCORD_WEBHOOK_URL_ANDROID }}"
+
+      - name: Notify Failure
+        if: failure()
+        env:
+          DATA: >
+            {
+              "embeds": [
+                {
+                  "title": "Andriod 실패했노 :(",
+                  "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}\n",
+                  "color": 16711680,
+                  "timestamp": "${{ env.TIMESTAMP }}",
+                  "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                  "author": {
+                    "name": "${{ github.event.sender.login }}",
+                    "url": "${{ github.event.sender.html_url }}",
+                    "icon_url": "${{ github.event.sender.avatar_url }}"
+                  },
+                  "thumbnail": {
+                    "url": "${{ github.event.sender.avatar_url }}"
+                  },
+                  "image": {
+                    "url": "${{ secrets.FAIL_ANDROID_IMAGE }}"
+                  },
+                  "footer": {
+                    "text": "북딱 흔드릈다",
+                    "icon_url": "https://steamuserimages-a.akamaihd.net/ugc/809998067550420747/A4B8A0FDB2C3A688FC556B47162698B94F038324/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
+                  },
+                  "fields": [
+                    {
+                      "name": "Repository",
+                      "value": "> [Signet-GSM/Signet-Flutter](https://github.com/Signet-GSM/Signet-Flutter)\n"
+                    },
+                    {
+                      "name": "Branch",
+                      "value": "> [${{ github.ref }}](https://github.com/${{ github.repository }}/tree/${{ github.ref_name }})",
+                      "inline": false
+                    },
+                    {
+                      "name": "Workflow",
+                      "value": "> [CI](${{
+                        github.server_url
+                      }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                      "inline": false
+                    }
+                  ]
+                }
+              ]
+            }
+        run: >
+          curl -X POST -H 'Content-type:application/json'
+          -d "$DATA"
+          "${{ secrets.DISCORD_WEBHOOK_URL_ANDROID }}"
