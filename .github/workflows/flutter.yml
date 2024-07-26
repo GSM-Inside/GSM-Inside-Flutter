@@ -34,23 +34,23 @@ jobs:
               "embeds": [
                 {
                   "title": "CI 성공이노 :)",
-                  "description": "** COMMIT MESSAGE **\n```\nAnd also code blocks\n```",
+                  "description": "** COMMIT MESSAGE **\n```\n${{ toJson(github.event.head_commit.message) }}\n```",
                   "color": 46335,
                   "timestamp": "2024-07-26T01:04:35.181Z",
-                  "url": "https://discord.com",
+                  "url": ${{ toJson(github.server_url + '/' + github.repository + '/actions/runs/' + github.run_id) }},
                   "author": {
-                    "name": "iloveuhyeon",
-                    "url": "https://discord.com",
-                    "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png"
+                    "name":  ${{ toJson(github.event.sender.login) }},
+                    "url": ${{ toJson(github.event.sender.html_url) }},
+                    "icon_url": ${{ toJson(github.event.sender.avatar_url) }}
                   },
                   "thumbnail": {
-                    "url": "https://cdn.discordapp.com/embed/avatars/0.png"
+                    "url": ${{ toJson(github.event.sender.avatar_url) }}
                   },
                   "image": {
                     "url": "https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWgzaWp5dnprYTVlcXpqbTd6MHFwcnpwZnhlMzMyZXNzbWc3Z2RxdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RLW9YEaSBfBMt79fm4/giphy.gif"
                   },
                   "footer": {
-                    "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png"
+                    "icon_url": ""
                   },
                   "fields": [
                     {
@@ -59,12 +59,12 @@ jobs:
                     },
                     {
                       "name": "Branch",
-                      "value": "> [Branch](branch ur)",
+                      "value": "> [${{ toJson(github.ref) }}](https://github.com/${{ toJson(github.repository) }}/tree/${{ toJson(github.ref.replace('refs/heads/', '')) }})",
                       "inline": false
                     },
                     {
                       "name": "Workflow",
-                      "value": "> [CI](CI url)",
+                      "value": "> [CI](${{ toJson(github.server_url + '/' + github.repository + '/actions/runs/' + github.run_id) }})",
                       "inline": false
                     }
                   ]
