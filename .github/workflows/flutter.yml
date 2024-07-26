@@ -29,8 +29,11 @@ jobs:
       - run: flutter pub get
       - run: flutter analyze
 
-      - name: Send Notification
+      - name: Set timestamp
+        id: timestamp
         run: echo "TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
+
+      - name: Send Notification
         env:
           DATA: >
             {
