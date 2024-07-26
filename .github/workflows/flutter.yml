@@ -29,6 +29,44 @@ jobs:
       - run: flutter pub get
       - run: flutter analyze
 
+      - name: Set Variables for Discord Notification
+        id: vars
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const ref = process.env.GITHUB_REF;
+            const branch = ref.split('refs/heads/')[1];
+            const commitMessage = process.env.GITHUB_EVENT_HEAD_COMMIT_MESSAGE;
+            const timestamp = process.env.GITHUB_EVENT_HEAD_COMMIT_TIMESTAMP;
+            const serverUrl = process.env.GITHUB_SERVER_URL;
+            const repository = process.env.GITHUB_REPOSITORY;
+            const runId = process.env.GITHUB_RUN_ID;
+            const senderLogin = process.env.GITHUB_EVENT_SENDER_LOGIN;
+            const senderHtmlUrl = process.env.GITHUB_EVENT_SENDER_HTML_URL;
+            const senderAvatarUrl = process.env.GITHUB_EVENT_SENDER_AVATAR_URL;
+
+            return {
+              branch,
+              commitMessage,
+              timestamp,
+              serverUrl,
+              repository,
+              runId,
+              senderLogin,
+              senderHtmlUrl,
+              senderAvatarUrl
+            };
+        env:
+          GITHUB_REF: ${{ github.ref }}
+          GITHUB_EVENT_HEAD_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          GITHUB_EVENT_HEAD_COMMIT_TIMESTAMP: ${{ github.event.head_commit.timestamp }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_EVENT_SENDER_LOGIN: ${{ github.event.sender.login }}
+          GITHUB_EVENT_SENDER_HTML_URL: ${{ github.event.sender.html_url }}
+          GITHUB_EVENT_SENDER_AVATAR_URL: ${{ github.event.sender.avatar_url }}
+
       - name: Send Discord Notification
         env:
           DATA: |
@@ -36,17 +74,17 @@ jobs:
               "embeds": [
                 {
                   "title": "CI 성공이노 :)",
-                  "description": "** COMMIT MESSAGE **\n```\n${{ github.event.head_commit.message }}\n```",
+                  "description": "** COMMIT MESSAGE **\n```\n${{ steps.vars.outputs.commitMessage }}\n```",
                   "color": 46335,
-                  "timestamp": "${{ github.event.head_commit.timestamp }}",
-                  "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                  "timestamp": "${{ steps.vars.outputs.timestamp }}",
+                  "url": "${{ steps.vars.outputs.serverUrl }}/${{ steps.vars.outputs.repository }}/actions/runs/${{ steps.vars.outputs.runId }}",
                   "author": {
-                    "name": "${{ github.event.sender.login }}",
-                    "url": "${{ github.event.sender.html_url }}",
-                    "icon_url": "${{ github.event.sender.avatar_url }}"
+                    "name": "${{ steps.vars.outputs.senderLogin }}",
+                    "url": "${{ steps.vars.outputs.senderHtmlUrl }}",
+                    "icon_url": "${{ steps.vars.outputs.senderAvatarUrl }}"
                   },
                   "thumbnail": {
-                    "url": "${{ github.event.sender.avatar_url }}"
+                    "url": "${{ steps.vars.outputs.senderAvatarUrl }}"
                   },
                   "image": {
                     "url": "https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWgzaWp5dnprYTVlcXpqbTd6MHFwcnpwZnhlMzMyZXNzbWc3Z2RxdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RLW9YEaSBfBMt79fm4/giphy.gif"
@@ -61,12 +99,12 @@ jobs:
                     },
                     {
                       "name": "Branch",
-                      "value": "> [${{ github.ref }}](https://github.com/${{ github.repository }}/tree/${{ github.ref.split('refs/heads/')[1] }})",
+                      "value": "> [${{ steps.vars.outputs.branch }}](https://github.com/${{ steps.vars.outputs.repository }}/tree/${{ steps.vars.outputs.branch }})",
                       "inline": false
                     },
                     {
                       "name": "Workflow",
-                      "value": "> [CI](${ { github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                      "value": "> [CI](${ { steps.vars.outputs.serverUrl }}/${{ steps.vars.outputs.repository }}/actions/runs/${{ steps.vars.outputs.runId }})",
                       "inline": false
                     }
                   ]
