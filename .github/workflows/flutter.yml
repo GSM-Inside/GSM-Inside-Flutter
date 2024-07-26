@@ -41,7 +41,7 @@ jobs:
               "embeds": [
                 {
                   "title": "CI 성공이노 :)",
-                  "description": "** COMMIT MESSAGE **\n> ${{ github.event.head_commit.message }}\n",
+                  "description": "** COMMIT MESSAGE **\n> [${{ github.event.head_commit.message }}](${{ github.event.head_commit.url }})\n",
                   "color": 46335,
                   "timestamp": "${{ env.TIMESTAMP }}",
                   "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
