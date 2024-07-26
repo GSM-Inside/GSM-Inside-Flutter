@@ -31,53 +31,52 @@ jobs:
 
       - name: Send Notification
         env:
-          DATA: >
-            {
-              "embeds": [
-                {
-                  "title": "CI 성공이노 :)",
-                  "description": "** COMMIT MESSAGE **\n```${{ toJson(github.event.head_commit.message) }}```",
-                  "color": 46335,
-                  "timestamp": "2024-07-26T01:04:35.181Z",
-                  "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
-                  "author": {
-                    "name": "${{ github.event.sender.login }}",
-                    "url": "${{ github.event.sender.html_url }}",
-                    "icon_url": "${{ github.event.sender.avatar_url }}"
+          DATA: ${{ toJson({
+            "embeds": [
+              {
+                "title": "CI 성공이노 :)",
+                "description": "** COMMIT MESSAGE **\n```${{ github.event.head_commit.message }}```",
+                "color": 46335,
+                "timestamp": "${{ steps.set_timestamp.outputs.timestamp }}",
+                "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                "author": {
+                  "name": "${{ github.event.sender.login }}",
+                  "url": "${{ github.event.sender.html_url }}",
+                  "icon_url": "${{ github.event.sender.avatar_url }}"
+                },
+                "thumbnail": {
+                  "url": "${{ github.event.sender.avatar_url }}"
+                },
+                "image": {
+                  "url": "https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWgzaWp5dnprYTVlcXpqbTd6MHFwcnpwZnhlMzMyZXNzbWc3Z2RxdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RLW9YEaSBfBMt79fm4/giphy.gif"
+                },
+                "footer": {
+                  "icon_url": ""
+                },
+                "fields": [
+                  {
+                    "name": "Repository",
+                    "value": "> [Signet-GSM/Signet-Flutter](https://github.com/Signet-GSM/Signet-Flutter)\n"
                   },
-                  "thumbnail": {
-                    "url": "${{ github.event.sender.avatar_url }}"
+                  {
+                    "name": "Branch",
+                    "value": "> [${{ github.ref }}](https://github.com/${{ github.repository }}/tree/${{ github.ref_name }})",
+                    "inline": false
                   },
-                  "image": {
-                    "url": "https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWgzaWp5dnprYTVlcXpqbTd6MHFwcnpwZnhlMzMyZXNzbWc3Z2RxdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RLW9YEaSBfBMt79fm4/giphy.gif"
-                  },
-                  "footer": {
-                    "icon_url": ""
-                  },
-                  "fields": [
-                    {
-                      "name": "Repository",
-                      "value": "> [Signet-GSM/Signet-Flutter](https://github.com/Signet-GSM/Signet-Flutter)\n"
-                    },
-                    {
-                      "name": "Branch",
-                      "value": "> [${{ github.ref }}](https://github.com/${{ github.repository }}/tree/${{ github.ref_name }})",
-                      "inline": false
-                    },
-                    {
-                      "name": "Workflow",
-                      "value": "> [CI](${{
-                        github.server_url
-                      }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
-                      "inline": false
-                    }
-                  ]
-                }
-              ]
-            }
-        run: >
-          curl -X POST -H 'Content-type:application/json'
-          -d "$DATA"
+                  {
+                    "name": "Workflow",
+                    "value": "> [CI](${{
+                      github.server_url
+                    }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                    "inline": false
+                  }
+                ]
+              }
+            ]
+          }) }}
+        run: |
+          curl -X POST -H 'Content-type:application/json' \
+          -d "${DATA}" \
           "${{ secrets.DISCORD_WEBHOOK_URL }}"
 
   build_ios:
