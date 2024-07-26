@@ -50,11 +50,7 @@ jobs:
       - run: flutter clean
       - run: flutter build ios --release --no-codesign
 
-      - name: Send Webhook Notification
-        run: |
-          curl -X POST -H "Content-Type: application/json" \
-          -d '{"text": "iOS Build Completed"}' \
-          https://your-webhook-url.com
+    
 
   build_appbundle:
     name: Build Flutter (Android)
@@ -79,8 +75,4 @@ jobs:
       - run: flutter clean
       - run: flutter build appbundle
 
-      - name: Send Webhook Notification
-        run: |
-          curl -X POST -H "Content-Type: application/json" \
-          -d '{"text": "Android Build Completed"}' \
-          https://your-webhook-url.com
+    
