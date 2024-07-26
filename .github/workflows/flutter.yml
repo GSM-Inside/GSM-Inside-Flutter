@@ -36,7 +36,7 @@ jobs:
               "embeds": [
                 {
                   "title": "CI 성공이노 :)",
-                  "description": "** COMMIT MESSAGE **\n```${{ github.event.head_commit.message }}```",
+                  "description": "** COMMIT MESSAGE **\n${{ github.event.head_commit.message }}",
                   "color": 46335,
                   "timestamp": "2024-07-26T01:04:35.181Z",
                   "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
@@ -52,7 +52,8 @@ jobs:
                     "url": "https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWgzaWp5dnprYTVlcXpqbTd6MHFwcnpwZnhlMzMyZXNzbWc3Z2RxdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RLW9YEaSBfBMt79fm4/giphy.gif"
                   },
                   "footer": {
-                    "icon_url": ""
+                    "text": "북딱 흔드르라",
+                    "icon_url": "https://steamuserimages-a.akamaihd.net/ugc/809998067550420747/A4B8A0FDB2C3A688FC556B47162698B94F038324/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
                   },
                   "fields": [
                     {
