@@ -42,7 +42,7 @@ jobs:
                   "title": "CI 성공이노 :)",
                   "description": "** COMMIT MESSAGE **\n\n> ${{ github.event.head_commit.message }}",
                   "color": 46335,
-                  "timestamp": ${{ env.TIMESTAMP }},
+                  "timestamp": "${{ env.TIMESTAMP }}",
                   "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
                   "author": {
                     "name": "${{ github.event.sender.login }}",
