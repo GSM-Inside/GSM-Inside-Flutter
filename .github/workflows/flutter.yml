@@ -61,7 +61,7 @@ jobs:
                     },
                     {
                       "name": "Branch",
-                      "value": "> [${{ github.ref }}](https://github.com/${{ github.repository }}/tree/${{ github.ref.replace('refs/heads/', '') }})",
+                      "value": "> [${{ github.ref }}](https://github.com/${{ github.repository }}/tree/${{ github.ref_name }})",
                       "inline": false
                     },
                     {
