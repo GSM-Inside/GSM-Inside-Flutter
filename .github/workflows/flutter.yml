@@ -26,6 +26,8 @@ jobs:
           channel: "stable"
       - run: flutter pub get
       - run: flutter analyze
+      - run: echo "Hello, World!"
+
 
   build_ios:
     name: Build Flutter (iOS)
