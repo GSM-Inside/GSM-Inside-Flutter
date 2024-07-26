@@ -37,7 +37,7 @@ jobs:
                 "title": "CI 성공이노 :)",
                 "description": "** COMMIT MESSAGE **\n```${{ github.event.head_commit.message }}```",
                 "color": 46335,
-                "timestamp": "${{ steps.set_timestamp.outputs.timestamp }}",
+                "timestamp": "${{ github.event.head_commit.timestamp }}",
                 "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
                 "author": {
                   "name": "${{ github.event.sender.login }}",
@@ -65,9 +65,7 @@ jobs:
                   },
                   {
                     "name": "Workflow",
-                    "value": "> [CI](${{
-                      github.server_url
-                    }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                    "value": "> [CI](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
                     "inline": false
                   }
                 ]
